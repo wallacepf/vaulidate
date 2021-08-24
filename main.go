@@ -1,21 +1,24 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
 	"os"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
-func doEvery(d time.Duration, f func(time.Time)) {
-	for x := range time.Tick(d) {
-		f(x)
+func getSecret(c *gin.Context) {
+	var output struct {
+		Username string `json:"user"`
+		Password string `json:"pass"`
 	}
-}
-
-func helloworld(t time.Time) {
-	fmt.Printf("%v: %v\n", t, os.Getenv("SECRET"))
+	output.Username = os.Getenv("USERNAME")
+	output.Password = os.Getenv("PASSWORD")
+	c.JSON(http.StatusOK, output)
 }
 
 func main() {
-	doEvery(1200*time.Millisecond, helloworld)
+	router := gin.Default()
+	router.GET("/secret", getSecret)
+	router.Run("0.0.0.0:8080")
 }
