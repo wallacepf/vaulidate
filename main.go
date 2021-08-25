@@ -36,10 +36,17 @@ func getSecretNative(c *gin.Context) {
 		log.Fatal(err)
 		return
 	}
-	resp, err := client.Logical().Write("auth/approle/login", map[string]interface{}{
-		"role_id":   os.Getenv("ROLE_ID"),
-		"secret_id": os.Getenv("SECRET_ID"),
-	})
+
+	roleID := os.Getenv("ROLE_ID")
+	secretID := os.Getenv("SECRET_ID")
+	fmt.Printf("%v %v", roleID, secretID)
+
+	params := map[string]interface{}{
+		"role_id":   roleID,
+		"secret_id": secretID,
+	}
+	fmt.Println(params)
+	resp, err := client.Logical().Write("auth/approle/login", params)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,7 +55,13 @@ func getSecretNative(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	output.Username, output.Password = fmt.Sprintf("%v", secret.Data["username"]), fmt.Sprintf("%v", secret.Data["password"])
+	data, ok := secret.Data["data"].(map[string]interface{})
+	if !ok {
+		fmt.Errorf("data type assertion failed: %T %#v", secret.Data["data"], secret.Data["data"])
+	}
+	keyA, keyB := "username", "password"
+	output.Username, output.Password = data[keyA].(string), data[keyB].(string)
+
 	c.JSON(http.StatusOK, output)
 }
 
