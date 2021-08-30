@@ -1,0 +1,64 @@
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: vaulidate
+    labels:
+      app: vaulidate
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: vaulidate
+    template:
+      metadata:
+        annotations:
+          vault.hashicorp.com/agent-inject: "true"
+          vault.hashicorp.com/role: "vaulidate"
+          vault.hashicorp.com/agent-inject-secret-config.txt: "secret/data/vaulidate/mysecret"
+          vault.hashicorp.com/agent-inject-template-config.txt: |
+            {{- with secret "secret/data/vaulidate/mysecret" -}}
+              postgresql://{{ .Data.data.username }}:{{ .Data.data.password }}@postgres:5432/wizard
+            {{- end -}}
+        labels:
+          app: vaulidate
+      spec:
+        serviceAccountName: vaulidate
+        containers:
+        - name: vaulidate
+          image: wallacepf/vaulidate:latest
+          imagePullPolicy: Always
+          env:
+            - name: VAULT_MODE
+              value: "file"
+            - name: SECRET_FILE
+              value: "/vault/secrets/config.txt"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaulidate
+  namespace: vaulidate
+spec:
+  selector:
+    app: vaulidate
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: validate
+  namespace: vaulidate
+spec:
+  path: /
+  to:
+    kind: Service
+    name: vaulidate
+  port:
+    targetPort: 8080
+

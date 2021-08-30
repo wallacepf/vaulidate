@@ -17,4 +17,4 @@
 waypoint.hcl
 *.sh
 *.env*
-Dockerfile
+.waypoint

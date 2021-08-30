@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -19,10 +20,12 @@ var output struct {
 
 func getSecretFile(c *gin.Context) {
 	var filePath string = os.Getenv("SECRET_FILE")
-	_ = filePath
-	output.Username = ""
-	output.Password = ""
-	c.JSON(http.StatusOK, output)
+	data, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c.JSON(http.StatusOK, string(data))
 }
 
 func getSecretNative(c *gin.Context) {
@@ -39,13 +42,12 @@ func getSecretNative(c *gin.Context) {
 
 	roleID := os.Getenv("ROLE_ID")
 	secretID := os.Getenv("SECRET_ID")
-	fmt.Printf("%v %v", roleID, secretID)
 
 	params := map[string]interface{}{
 		"role_id":   roleID,
 		"secret_id": secretID,
 	}
-	fmt.Println(params)
+
 	resp, err := client.Logical().Write("auth/approle/login", params)
 	if err != nil {
 		log.Fatal(err)
@@ -57,7 +59,7 @@ func getSecretNative(c *gin.Context) {
 	}
 	data, ok := secret.Data["data"].(map[string]interface{})
 	if !ok {
-		fmt.Errorf("data type assertion failed: %T %#v", secret.Data["data"], secret.Data["data"])
+		log.Fatalf("data type assertion failed: %T %#v", secret.Data["data"], secret.Data["data"])
 	}
 	keyA, keyB := "username", "password"
 	output.Username, output.Password = data[keyA].(string), data[keyB].(string)

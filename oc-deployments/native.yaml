@@ -1,0 +1,61 @@
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: vaulidate
+    labels:
+      app: vaulidate
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: vaulidate
+    template:
+      metadata:
+        labels:
+          app: vaulidate
+      spec:
+        containers:
+        - name: vaulidate
+          image: wallacepf/vaulidate:latest
+          imagePullPolicy: Always
+          env:
+            - name: VAULT_ADDR
+              value: "http://vault.vault.svc:8200"
+            - name: VAULT_MODE
+              value: "native"
+            - name: ROLE_ID
+              value: ""
+            - name: SECRET_ID
+              value: ""
+            - name: SECRET_PATH
+              value: "secret/data/vaulidate/mysecret"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaulidate
+  namespace: vaulidate
+spec:
+  selector:
+    app: vaulidate
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: validate
+  namespace: vaulidate
+spec:
+  path: /
+  to:
+    kind: Service
+    name: vaulidate
+  port:
+    targetPort: 8080
+
