@@ -27,7 +27,6 @@
         containers:
         - name: vaulidate
           image: wallacepf/vaulidate:latest
-          imagePullPolicy: Always
           env:
             - name: VAULT_MODE
               value: "file"

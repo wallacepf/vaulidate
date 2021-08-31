@@ -18,7 +18,6 @@
         containers:
         - name: vaulidate
           image: wallacepf/vaulidate:latest
-          imagePullPolicy: Always
           env:
             - name: VAULT_ADDR
               value: "http://vault.vault.svc:8200"
