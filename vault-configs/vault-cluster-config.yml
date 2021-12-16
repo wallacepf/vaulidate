@@ -1,0 +1,66 @@
+# global:
+#   openshift: true
+
+injector:
+  enabled: true
+  # image:
+  #   repository: "hashicorp/vault-k8s"
+  #   tag: 0.12.0-ubi
+  #   pullPolicy: IfNotPresent
+  # agentImage:
+  #   repository: "hashicorp/vault"
+  #   tag: 1.8.1-ubi
+
+# csi:
+#   enabled: true
+
+server:
+  dev:
+    enabled: true
+  # standalone:
+  #   enabled: true
+  image:
+    repository: "hashicorp/vault"
+    tag: 1.9.0
+
+#   affinity: ""
+#   ha:
+#     enabled: true
+#     raft:
+#       enabled: true
+#       setNodeId: true
+
+#       config: |
+#         ui = true
+#         listener "tcp" {
+#           address = "[::]:8200"
+#           cluster_address = "[::]:8201"
+#         }
+
+#         storage "raft" {
+#           path = "/vault/data"
+#             retry_join {
+#             leader_api_addr = "http://vault-0.vault-internal:8200"
+#           }
+#           retry_join {
+#             leader_api_addr = "http://vault-1.vault-internal:8200"
+#           }
+#           retry_join {
+#             leader_api_addr = "http://vault-2.vault-internal:8200"
+#           }
+        
+#           autopilot {
+#             cleanup_dead_servers = "true"
+#             last_contact_threshold = "200ms"
+#             last_contact_failure_threshold = "10m"
+#             max_trailing_logs = 250000
+#             min_quorum = 3
+#             server_stabilization_time = "10s"
+#           }
+#         }
+
+ui:
+  enabled: true
+  serviceType: "LoadBalancer"
+#   serviceNodePort: null
+#   externalPort: 8200

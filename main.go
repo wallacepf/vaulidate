@@ -15,6 +15,7 @@ var vaultMode string = os.Getenv("VAULT_MODE")
 var output struct {
 	Username string `json:"user"`
 	Password string `json:"pass"`
+	Env string
 }
 
 func getSecretFile(c *gin.Context) {
@@ -61,7 +62,7 @@ func getSecretNative(c *gin.Context) {
 		log.Fatalf("data type assertion failed: %T %#v", secret.Data["data"], secret.Data["data"])
 	}
 	keyA, keyB := "username", "password"
-	output.Username, output.Password = data[keyA].(string), data[keyB].(string)
+	output.Username, output.Password, output.Env = data[keyA].(string), data[keyB].(string), "Using Native Mode"
 
 	c.JSON(http.StatusOK, output)
 }
@@ -69,6 +70,7 @@ func getSecretNative(c *gin.Context) {
 func getSecretEnv(c *gin.Context) {
 	output.Username = os.Getenv("USERNAME")
 	output.Password = os.Getenv("PASSWORD")
+	output.Env = "Using Env Mode"
 	c.JSON(http.StatusOK, output)
 }
 

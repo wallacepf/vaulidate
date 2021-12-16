@@ -1,0 +1,1 @@
+# For OpenShift, uncomment the route lines

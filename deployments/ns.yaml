@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vault
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vaulidate-native
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vaulidate-file
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vaulidate-env
+

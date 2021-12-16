@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vaulidate-env
+  namespace: vaulidate-env
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vaulidate-native
+  namespace: vaulidate-native
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vaulidate-file
+  namespace: vaulidate-file
+
+
