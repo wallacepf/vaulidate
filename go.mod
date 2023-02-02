@@ -1,4 +1,4 @@
-module example.com/web-service-gin
+module vaulidate
 
 go 1.16
 
