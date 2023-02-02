@@ -1,3 +1,10 @@
+def secrets = [
+  [path: 'secrets/vault-poc', engineVersion: 2, secretValues: [
+    [envVar: 'USERNAME', vaultKey: 'username'],
+    [envVar: 'PASSWORD', vaultKey: 'password']]],
+]
+def configuration = [vaultUrl: 'https://144.22.219.26',  vaultCredentialId: 'jenkins_approle', engineVersion: 2]
+
 pipeline {
     agent any
     tools {
@@ -31,11 +38,13 @@ pipeline {
                 registryCredential = 'dockerhub'
             }
             steps {
-                script {
-                    def appimage = docker.build registry + ":$BUILD_NUMBER"
-                    docker.withRegistry( '' , registryCredential ) {
-                        appimage.push
-                        appimage.push('latest')
+                withVault([configuration: configuration, vaultSecrets: secrets]) {
+                    script {
+                        def appimage = docker.build registry + ":$BUILD_NUMBER", "--build-arg var_username=${env.USERNAME} --build-arg var_password=${env.PASSWORD}"
+                        docker.withRegistry( '' , registryCredential ) {
+                            appimage.push()
+                            appimage.push('latest')
+                        }
                     }
                 }
             }
