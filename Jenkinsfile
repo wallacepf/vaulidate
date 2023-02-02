@@ -19,6 +19,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Compiling and building'
+                echo 'Tidying'
+                sh 'go mod tidy'
+                echo 'Building'
                 sh 'go build'
             }
         }
