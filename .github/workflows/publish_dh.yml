@@ -15,7 +15,7 @@ jobs:
       - name: Import Secrets
         uses: hashicorp/vault-action@v2
         with:
-          url: ${{ secrets.VAULT_ADDR }}
+          url: https://144.22.219.26
           tlsSkipVerify: true
           method: approle
           roleId: ${{ secrets.ROLE_ID }}
