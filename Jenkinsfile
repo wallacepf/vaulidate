@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        go 'go1.16'
+        go 'go1.17'
     }
     environment {
         CGO_ENABLED = 0 
