@@ -47,5 +47,8 @@ vault write auth/approle/role/vaulidate-native \
     secret_id_num_uses=40 \
     token_policies=vaulidate-policy
 
-vault read auth/approle/role/vaulidate/role-id
-vault write -f auth/approle/role/vaulidate/secret-id
+vault read auth/approle/role/vaulidate-native/role-id
+vault write -f auth/approle/role/vaulidate-native/secret-id
+
+# f0103032-a54c-0654-a21a-502c09f4f901
+# 4ca6d0d0-0f6a-8646-f0e3-548a7e61e5e9

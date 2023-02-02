@@ -21,7 +21,7 @@ server:
   #   enabled: true
   image:
     repository: "hashicorp/vault"
-    tag: 1.9.0
+    tag: latest
 
 #   affinity: ""
 #   ha:
