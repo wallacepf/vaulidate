@@ -34,12 +34,12 @@ pipeline {
         }
 
         stage('Publish') {
-            agent {
-                docker {
-                    image 'docker:latest'
-                    reuseNode true
-                }
-            }
+            // agent {
+            //     docker {
+            //         image 'docker:latest'
+            //         reuseNode true
+            //     }
+            // }
             environment {
                 registryCredential = 'dockerhub'
             }
@@ -58,6 +58,6 @@ pipeline {
                 }
             }
         }
-        
+
     }
 }
