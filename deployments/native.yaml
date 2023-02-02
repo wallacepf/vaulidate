@@ -20,17 +20,17 @@
         containers:
         - name: vaulidate
           image: wallacepf/vaulidate:latest
-          env:
-            - name: VAULT_ADDR
-              value: "http://vault.vault.svc:8200"
-            - name: VAULT_MODE
-              value: "native"
-            - name: ROLE_ID
-              value: "f0103032-a54c-0654-a21a-502c09f4f901"
-            - name: SECRET_ID
-              value: "4ca6d0d0-0f6a-8646-f0e3-548a7e61e5e9"
-            - name: SECRET_PATH
-              value: "secret/data/vaulidate/mysecret"
+          # env:
+          #   - name: VAULT_ADDR
+          #     value: "http://vault.vault.svc:8200"
+          #   - name: VAULT_MODE
+          #     value: "native"
+          #   - name: ROLE_ID
+          #     value: "f0103032-a54c-0654-a21a-502c09f4f901"
+          #   - name: SECRET_ID
+          #     value: "4ca6d0d0-0f6a-8646-f0e3-548a7e61e5e9"
+          #   - name: SECRET_PATH
+          #     value: "secret/data/vaulidate/mysecret"
 
 ---
 apiVersion: v1
