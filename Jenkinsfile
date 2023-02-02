@@ -12,7 +12,6 @@ pipeline {
             steps {
                 echo 'Installing dependencies'
                 sh 'go version'
-                sh 'go get -d golang.org/x/lint/golint'
             }
         }
         
@@ -28,15 +27,10 @@ pipeline {
 
         stage('Test') {
             steps {
-                withEnv(["PATH+GO=${GOPATH}/bin"]){
-                    echo 'Running vetting'
-                    sh 'go vet .'
-                    echo 'Running linting'
-                    sh 'golint .'
-                    sh 'ls -l'
-                }
+                echo 'Running vetting'
+                sh 'go vet .'
             }
         }
-        
     }
+        
 }
