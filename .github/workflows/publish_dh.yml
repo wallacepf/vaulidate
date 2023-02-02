@@ -33,7 +33,7 @@ jobs:
           username: ${{ env.DH_USERNAME }}
           password: ${{ env.DH_DH_PASSWORD }}
       - name: Push to DH
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
           push: true
           build-args: |
