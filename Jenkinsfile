@@ -52,7 +52,7 @@ podTemplate(yaml: '''
             withVault([configuration: configuration, vaultSecrets: secrets]) {
                 container('kaniko') {
                     stage ('Building Project...') {
-                        sh '/kaniko/executor --context `pwd` --destination \"${env.registry}\":\"${env.BUILD_NUMBER}\" --build-arg var_username=\"${env.USERNAME}\" --build-arg var_password=\"${env.PASSWORD}\"'
+                        sh '/kaniko/executor --context `pwd` --destination "${registry}":"${BUILD_NUMBER}" --build-arg var_username="${USERNAME}" --build-arg var_password="${PASSWORD}"'
                     }
                 }
             }
