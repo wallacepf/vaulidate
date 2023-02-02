@@ -6,6 +6,7 @@ pipeline {
     environment {
         CGO_ENABLED = 0 
         // GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
+        registry = "wallacepf/vaulidate"
     }
     stages {        
         stage('Pre Test') {
@@ -14,7 +15,7 @@ pipeline {
                 sh 'go version'
             }
         }
-        
+
         stage('Build') {
             steps {
                 echo 'Compiling and building'
@@ -25,12 +26,20 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Publish') {
+            environment {
+                registryCredential = 'dockerhub'
+            }
             steps {
-                echo 'Running vetting'
-                sh 'go vet .'
+                script {
+                    def appimage = docker.build registry + ":$BUILD_NUMBER"
+                    docker.withRegistry( '' , registryCredential ) {
+                        appimage.push
+                        appimage.push('latest')
+                    }
+                }
             }
         }
+
     }
-        
 }

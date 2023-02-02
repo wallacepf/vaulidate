@@ -12,6 +12,11 @@ COPY *.go ./
 
 RUN go build -o /goprintenv
 
+ARG var_username
+ARG var_password
+ENV USERNAME=${var_username}
+ENV PASSWORD=${var_password}
+
 EXPOSE 8080
 
 CMD [ "/goprintenv" ]

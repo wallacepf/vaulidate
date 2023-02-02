@@ -15,7 +15,7 @@ var vaultMode string = os.Getenv("VAULT_MODE")
 var output struct {
 	Username string `json:"user"`
 	Password string `json:"pass"`
-	Env string
+	Env      string
 }
 
 func getSecretFile(c *gin.Context) {
