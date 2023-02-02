@@ -1,5 +1,6 @@
 name: Publish Docker Image DockerHub
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -11,15 +12,31 @@ jobs:
       packages: write
       contents: read
     steps:
+      - name: Import Secrets
+        uses: hashicorp/vault-action@v2
+        with:
+          url: ${{ secrets.VAULT_ADDR }}
+          tlsSkipVerify: true
+          method: approle
+          roleId: ${{ secrets.ROLE_ID }}
+          secretId: ${{ secrets.SECRET_ID }}
+          secrets: |
+              secret/data/gha/dh_creds dh_username | DH_USERNAME ;
+              secret/data/gha/dh_creds dh_password | DH_PASSWORD ;
+              secret/data/gha/vaulidate username | VAL_USERNAME ;
+              secret/data/gha/vaulidate password | VAL_PASSWORD ;
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Log in DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: $DH_USERNAME
+          password: $DH_PASSWORD
       - name: Push to DH
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: wallacepf/vaulidate:latest
+          build-args: |
+            "var_username=$VAL_USERNAME"
+            "var_password=$VAl_PASSWORD"
+          tags: wallacepf/vaulidate:gha
