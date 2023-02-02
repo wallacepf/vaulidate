@@ -34,29 +34,30 @@ podTemplate(yaml: '''
             items:
             - key: .dockerconfigjson
               path: config.json
-''')
-
-
-node(POD_LABEL) {
-    stage('Get Vaulidate Project') {
-        git url: 'https://github.com/wallacepf/vaulidate.git', branch: 'main'
-        container('golang') {
-            stage('Build Vaulidate') {
-                sh 'go mod tidy'
-                sh 'go build'
+''') {
+    node(POD_LABEL) {
+        stage('Get Vaulidate Project') {
+            git url: 'https://github.com/wallacepf/vaulidate.git', branch: 'main'
+            container('golang') {
+                stage('Build Vaulidate') {
+                    sh 'go mod tidy'
+                    sh 'go build'
+                }
             }
         }
-    }
-    stage('Build Vaulidate Docker Image') {
-        withVault([configuration: configuration, vaultSecrets: secrets]) {
-            container('kaniko') {
-                stage ('Building Project...') {
-                    sh '/kaniko/executor --context `pwd` --destination wallacepf/vaulidate:${env.BUILD_NUMBER} --build-arg var_username=${env.USERNAME} --build-arg var_password=${env.PASSWORD}'
+        stage('Build Vaulidate Docker Image') {
+            withVault([configuration: configuration, vaultSecrets: secrets]) {
+                container('kaniko') {
+                    stage ('Building Project...') {
+                        sh '/kaniko/executor --context `pwd` --destination wallacepf/vaulidate:${env.BUILD_NUMBER} --build-arg var_username=${env.USERNAME} --build-arg var_password=${env.PASSWORD}'
+                    }
                 }
             }
         }
     }
 }
+
+
 
 // pipeline {
 //     agent any
