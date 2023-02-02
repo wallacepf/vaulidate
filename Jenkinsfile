@@ -46,13 +46,10 @@ podTemplate(yaml: '''
             }
         }
         stage('Build Vaulidate Docker Image') {
-            environment{
-                registry = "wallacepf/vaulidate"
-            }
             withVault([configuration: configuration, vaultSecrets: secrets]) {
                 container('kaniko') {
                     stage ('Building Project...') {
-                        sh '/kaniko/executor --context `pwd` --destination "${registry}":"${BUILD_NUMBER}" --build-arg var_username="${USERNAME}" --build-arg var_password="${PASSWORD}"'
+                        sh '/kaniko/executor --context `pwd` --destination wallacepf/vaulidate:"${BUILD_NUMBER}" --build-arg var_username="${USERNAME}" --build-arg var_password="${PASSWORD}"'
                     }
                 }
             }
