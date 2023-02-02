@@ -31,12 +31,12 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ env.DH_USERNAME }}
-          password: ${{ env.DH_DH_PASSWORD }}
+          password: ${{ env.DH_PASSWORD }}
       - name: Push to DH
         uses: docker/build-push-action@v4
         with:
           push: true
           build-args: |
             "var_username=\${{ env.VAL_USERNAME }}"
-            "var_password=\${{ env.VAl_PASSWORD }}"
+            "var_password=\${{ env.VAL_PASSWORD }}"
           tags: wallacepf/vaulidate:gha
