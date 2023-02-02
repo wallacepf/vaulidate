@@ -46,16 +46,18 @@ pipeline {
             steps {
                 withVault([configuration: configuration, vaultSecrets: secrets]) {
                     script {
-                        def appimage = docker.build registry + ":$BUILD_NUMBER", "--build-arg var_username=${env.USERNAME} --build-arg var_password=${env.PASSWORD}"
-                        docker.withTool('docker')
-                        docker.withRegistry( '' , registryCredential ) {
-                            appimage.push()
-                            appimage.push('latest')
+                        docker.withTool('docker') {
+                            def appimage = docker.build registry + ":$BUILD_NUMBER", "--build-arg var_username=${env.USERNAME} --build-arg var_password=${env.PASSWORD}"
+                        
+                            docker.withRegistry( '' , registryCredential ) {
+                                appimage.push()
+                                appimage.push('latest')
+                            }
                         }
                     }
                 }
             }
         }
-
+        
     }
 }
