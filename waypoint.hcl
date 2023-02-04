@@ -14,6 +14,10 @@ variable "registry_password" {
 
 }
 
+variable "git_addr" {
+    default = "https://github.com/wallacepf/vaulidate.git"
+}
+
 project = "vaulidate"
 
 runner {
@@ -29,11 +33,13 @@ pipeline "vaulidate-dev" {
     //     use "build" {}
     // }
     step "test" {
-        image_url = "golang:1.17-alpine"
+        image_url = "golang:1.17"
         use "exec" {
-            command = "ls"
+            command = "sh"
             args = [
-                "-l"
+                "-c",
+                "git clone ${var.git_addr}",
+                "go test -v vaulidate/."
             ]
         }
     }
