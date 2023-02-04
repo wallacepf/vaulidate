@@ -25,11 +25,11 @@ runner {
 }
 
 pipeline "vaulidate-dev" {
-    step "build"{
-        use "build" {}
-    }
+    // step "build"{
+    //     use "build" {}
+    // }
     step "test" {
-        image_url = "hashicorp/waypoint-odr:dev"
+        image_url = "hashicorp/waypoint-odr:latest"
         use "exec" {
             command = "go"
             args = [
