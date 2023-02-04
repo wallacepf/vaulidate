@@ -16,7 +16,7 @@ pipeline "vaulidate-dev" {
 
 app "vaulidate" {
     build {
-        use "docker" {}
+        use "pack" {}
     }
 
     deploy {
