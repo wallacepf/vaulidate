@@ -38,7 +38,16 @@ pipeline "vaulidate-dev" {
             command = "sh"
             args = [
                 "-c",
-                "cd /usr/local/go/src && git clone ${var.git_addr} && cd vaulidate && pwd && ls -l && go mod tidy && go test -v && exit 1",
+                "cd /usr/local/go/src && git clone ${var.git_addr} && cd vaulidate && go mod tidy && go test -v",
+            ]
+        }
+    }
+    step "validate-err" {
+        image_url = "fdnbfbe:bfigf"
+        use "exec" {
+            command = "echo"
+            args = [
+                "12345"
             ]
         }
     }
