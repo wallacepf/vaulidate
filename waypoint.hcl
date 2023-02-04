@@ -38,7 +38,7 @@ pipeline "vaulidate-dev" {
             command = "sh"
             args = [
                 "-c",
-                "cd src && git clone ${var.git_addr} && ls -l",
+                "cd src && git clone ${var.git_addr} && echo $(go test -v vaulidate)",
             ]
         }
     }
