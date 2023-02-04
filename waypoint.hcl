@@ -29,7 +29,7 @@ pipeline "vaulidate-dev" {
     //     use "build" {}
     // }
     step "test" {
-        image_url = "wallacepf/vaulidate:waypoint"
+        image_url = "golang:1.17-alpine"
         use "exec" {
             command = "go"
             args = [
@@ -54,9 +54,8 @@ app "vaulidate" {
         }
     }
 
-
-
     deploy {
         use "kubernetes" {}
     }
+
 }
