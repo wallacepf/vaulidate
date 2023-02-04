@@ -1,3 +1,19 @@
+variable "image" {
+    default = "wallacepf/vaulidate"
+}
+
+variable "tag" {
+    default = "waypoint"
+}
+
+variable "registry_username" {
+
+}
+
+variable "registry_password" {
+    
+}
+
 project = "vaulidate"
 
 runner {
@@ -17,7 +33,18 @@ pipeline "vaulidate-dev" {
 app "vaulidate" {
     build {
         use "pack" {}
+        registry {
+            use "docker" {
+                image = var.image
+                tag = var.tag
+                username = var.registry_username
+                password = var.registry_password
+                local = false
+            }
+        }
     }
+
+
 
     deploy {
         use "kubernetes" {}
