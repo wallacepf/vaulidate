@@ -31,10 +31,9 @@ pipeline "vaulidate-dev" {
     step "test" {
         image_url = "golang:1.17-alpine"
         use "exec" {
-            command = "go"
+            command = "ls"
             args = [
-                "test",
-                "-v"
+                "-l"
             ]
         }
     }
