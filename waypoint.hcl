@@ -41,6 +41,7 @@ pipeline "vaulidate-dev" {
                 "cd /usr/local/go/src",
                 "git clone ${var.git_addr}",
                 "cd vaulidate",
+                "pwd && ls -l",
                 "go mod tidy",
                 "go test -v",
             ]
