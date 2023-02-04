@@ -11,7 +11,7 @@ variable "registry_username" {
 }
 
 variable "registry_password" {
-    
+
 }
 
 project = "vaulidate"
@@ -27,6 +27,16 @@ runner {
 pipeline "vaulidate-dev" {
     step "build"{
         use "build" {}
+    }
+    step "test" {
+        image_url = "golang:1.17-alpine"
+        use "exec" {
+            command = "go"
+            args = [
+                "test",
+                "-v"
+            ]
+        }
     }
 }
 
