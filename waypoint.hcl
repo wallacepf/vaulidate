@@ -29,7 +29,7 @@ pipeline "vaulidate-dev" {
     //     use "build" {}
     // }
     step "test" {
-        image_url = "hashicorp/waypoint-odr:latest"
+        image_url = "wallacepf/vaulidate:waypoint"
         use "exec" {
             command = "go"
             args = [
