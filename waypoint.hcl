@@ -29,7 +29,7 @@ pipeline "vaulidate-dev" {
         use "build" {}
     }
     step "test" {
-        image_url = "golang:1.17-alpine"
+        image_url = "hashicorp/waypoint-odr:dev"
         use "exec" {
             command = "go"
             args = [
