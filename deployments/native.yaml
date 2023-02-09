@@ -19,7 +19,7 @@
       spec:
         containers:
         - name: vaulidate
-          image: wallacepf/vaulidate:latest
+          image: wallacepf/vaulidate:gha
           # env:
           #   - name: VAULT_ADDR
           #     value: "http://vault.vault.svc:8200"

@@ -11,6 +11,7 @@ import (
 )
 
 var vaultMode string = os.Getenv("VAULT_MODE")
+var secure string = os.Getenv("SECURE")
 
 var output struct {
 	Username string `json:"user"`
@@ -29,6 +30,10 @@ func getSecretFile(c *gin.Context) {
 }
 
 func getSecretNative(c *gin.Context) {
+	if secure != "" {
+		os.Setenv("VAULT_SKIP_VERIFY", "true")
+	}
+
 	var vaultAddr string = os.Getenv("VAULT_ADDR")
 	var secretPath string = os.Getenv("SECRET_PATH")
 	config := &api.Config{
