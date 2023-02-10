@@ -3,7 +3,7 @@ def secrets = [
     [envVar: 'USERNAME', vaultKey: 'username'],
     [envVar: 'PASSWORD', vaultKey: 'password']]],
 ]
-def configuration = [vaultUrl: 'https://144.22.219.26',  vaultCredentialId: 'jenkins_approle', engineVersion: 2]
+def configuration = [vaultUrl: 'https://changeme',  vaultCredentialId: 'jenkins_approle', engineVersion: 2]
 
 
 podTemplate(yaml: '''
